@@ -1,0 +1,84 @@
+{% extends 'default/layout_in.html' %}
+{% block content %}
+{% set is_liked = post_data['is_liked'] %}
+<tr>
+	<td>
+		<table class="fatitem" border="0">
+			<tbody>
+			<tr class="athing">
+				<td align="right" valign="top" class="title"><span class="rank">{{post_data['id']}}.</span></td>
+				<td valign="top" class="votelinks">
+					<center>
+						<a data-like="{{post_data['total_likes']}}" {% if is_liked %} class="nosee" {% endif %} onclick="return vote(event, this)" data-id="{{post_data['id']}}" href="/vote/{{post_data['id']}}/">
+							<div class="votearrow" title="upvote"></div>
+						</a>
+					</center>
+				</td>
+				<td class="title">
+					<a href="/group/{{post_data['group'].lower()}}" style="color: blue" class="titlelink" rel="nofollow">{{post_data['group']}}</a> •
+					<a href="/post/{{post_data['url_key']}}" class="titlelink" rel="nofollow">{{post_data['title']}}</a> <span id="total_likes{{post_data['id']}}">({{post_data['total_likes']}} likes)</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"></td>
+				<td class="subtext">
+					by <a href="/user/{{post_data['username']}}" class="hnuser">{{post_data['username']}}</a>
+					<span class="age">{{post_data['create_date']}}</span>
+				</td>
+			</tr>
+			<tr style="height:2px"></tr>
+			<tr>
+				<td colspan="2"></td>
+				<td>{{post_data['content']|safe}}</td>
+			</tr>
+			<tr style="height:10px"></tr>
+			<tr>
+				<td colspan="2"></td>
+				<td>
+					<form method="post" action="/add_comment/{{post_data['url_key']}}">
+						<input type="hidden" name="user_id" value="{{session['user_id']}}">
+						<input type="hidden" name="post_id" value="{{post_data['id']}}">
+						<textarea name="content" rows="6" cols="60"></textarea>
+						<br><br>
+						<button type="submit">add comment</button>
+					</form>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<br><br>
+		<table style="margin-left: 50px" border="0" class="comment-tree">
+			{% for comment in comments %}
+			<tbody>
+			<tr class="athing comtr">
+				<td>
+					<table border="0">
+						<tbody>
+						<tr>
+							<td class="default">
+								<div style="margin-top:2px; margin-bottom:-10px;">
+									<span class="comhead">
+										<a href="/user/{{comment['username']}}" class="hnuser">{{comment['username']}}</a>
+										<span class="age">
+											{{comment['create_date']}}
+										</span>
+									</span>
+								</div>
+								<br>
+								<div class="comment">
+                                    <span class="commtext c00">
+	                                    {{comment['content']}}
+	                                </span>
+								</div>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+			</tbody>
+			{% endfor %}
+		</table>
+	</td>
+</tr>
+{% endblock %}

@@ -1,0 +1,83 @@
+
+{% extends 'default/layout_out.html' %}
+{% block content %}
+<div>
+	<main>
+		<div class="container">
+			<center><a href="/"><img style="height: 150px" src="/static/img/inmyschool.png"></a></center>
+			<div class="row justify-content-center">
+				<div class="col-lg-7">
+					<div class="card shadow-lg border-0 rounded-lg mt-5">
+						<div class="card-header"><h3 class="text-center font-weight-bold my-4">Register</h3></div>
+						<div class="card-body">
+							{% for item in message %}
+							{% if error %}
+							<div class="alert alert-danger" role="alert">
+								{{ item }}
+							</div>
+							{% else %}
+							<div class="alert alert-success" role="alert">
+								{{ item }}
+							</div>
+							{% endif %}
+							{% endfor %}
+							<form id="login-form" method="post" action="{{ url_for('register') }}">
+								<div class="form-group">
+									<label class="small mb-1" for="fullname">Full Name</label>
+									<input required name="fullname" class="form-control py-4" id="fullname" aria-describedby="nameHelp" placeholder="Enter your full name"/>
+								</div>
+								<div class="form-group">
+									<label class="small mb-1" for="birthday">Birth date</label>
+									<input max="2021-12-31" min="1970-01-01"  required name="birthday" class="form-control py-4" type="date" id="birthday">
+								</div>
+								<div class="form-group">
+									<label class="small mb-1" for="username">Username</label>
+									<input required name="username" class="form-control py-4" id="username" aria-describedby="usernameHelp" placeholder="Enter a username"/>
+								</div>
+								<div class="form-group">
+									<label class="small mb-1" for="email">E-mail</label>
+									<input required name="email" class="form-control py-4" id="email" type="email" aria-describedby="emailHelp" placeholder="Enter a email"/>
+								</div>
+								<div class="form-group">
+									<label class="small mb-1" for="school">Choose your school</label>
+									<select class="form-control" name="school" id="school" required>
+										<option selected>Choose a school</option>
+										{% for group in groups %}
+										<option value="{{ group[0] }}">{{group[1]}} - {{group[2]}}</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="form-row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label class="small mb-1" for="password">Password</label>
+											<input required name="password" class="form-control py-4" id="password" type="password" placeholder="Enter a password"/>
+										</div>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label class="small mb-1" for="password-repeat">Password Repeat</label>
+											<input required name="password-repeat" class="form-control py-4" id="password-repeat" type="password" placeholder="Enter a password"/>
+										</div>
+									</div>
+								</div>
+								<div class="form-group mt-4 mb-0">
+									<button class="btn btn-primary btn-block" id="login-form-button">Register</button>
+								</div>
+								<div class="form-group mt-4 mb-0">
+									<a href="/login" style="color: white" class="btn btn-success btn-block">Login</a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</div>
+{% if registered %}
+<script>$(document).ready(function () {window.setTimeout(function () {location.href = "/login"}, 1000)})</script>
+{% endif %}
+{% endblock %}

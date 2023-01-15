@@ -1,0 +1,35 @@
+{% extends 'default/layout_in.html' %}
+{% block content %}
+<tr>
+	<td>
+		<table border="0" cellpadding="0" cellspacing="0" class="itemlist">
+			<h3>Posts for {{title}} | Birth date: {{account_data[6]}} | Create date: {{account_create_date}}</h3>
+			{% for post in posts %}
+			{% set is_liked = post['is_liked'] %}
+			<tbody>
+			<tr class="athing">
+				<td align="right" valign="top" class="title"><span class="rank">{{post['id']}}.</span></td>
+				<td valign="top" class="votelinks">
+					<center>
+						<a data-like="{{post['total_likes']}}" {% if is_liked %} class="nosee" {% endif %} onclick="return vote(event, this)" data-id="{{post['id']}}" href="/vote/{{post['id']}}/">
+							<div class="votearrow" title="upvote"></div>
+						</a>
+					</center>
+				</td>
+				<td class="title">
+					<a href="/group/{{post['group'].lower()}}" style="color: blue" class="titlelink" rel="nofollow">{{post['group']}}</a> • <a href="/post/{{post['url_key']}}" class="titlelink" rel="nofollow">{{post['title']}}</a> <span id="total_likes{{post['id']}}">({{post['total_likes']}} likes)</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"></td>
+				<td class="subtext">
+					by <a href="/user/{{post['username']}}" class="hnuser">{{post['username']}}</a> <span class="age">{{post['create_date']}}</span>
+				</td>
+			</tr>
+			<tr class="spacer" style="height:5px"></tr>
+			</tbody>
+			{% endfor %}
+		</table>
+	</td>
+</tr>
+{% endblock %}

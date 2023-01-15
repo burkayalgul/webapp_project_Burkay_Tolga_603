@@ -1,0 +1,67 @@
+{% extends 'default/layout_in.html' %}
+{% block content %}
+<tr>
+	<td>
+		{% for item in message %}
+		{% if error %}
+		<div class="alert alert-danger" role="alert">
+			{{ item }}
+		</div>
+		{% else %}
+		<div class="alert alert-success" role="alert">
+			{{ item }}
+		</div>
+		{% endif %}
+		{% endfor %}
+		<form id="create-post" method="post">
+			<table border="0">
+				<tbody>
+				<tr>
+					<td>title</td>
+					<td>
+						<input required type="text" name="title" value="" size="50">
+					</td>
+				</tr>
+				<tr>
+					<td>School</td>
+					<td>
+						<select name="school" required>
+							<option selected value="">Select your school</option>
+							{% for group in groups %}
+							<option value="{{ group[0] }}">{{group[1]}} - {{group[2]}}</option>
+							{% endfor %}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>text</td>
+					<td>
+						<div style="height: 250px;width: 800px;" id="editor"></div>
+						<textarea name="content" style="display:none" id="hiddenArea"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<button type="submit">Submit</button>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</form>
+	</td>
+</tr>
+<script>
+	var quill = new Quill('#editor', {
+		theme: 'snow'
+	});
+
+	$("#create-post").on("submit", function ()
+	{
+		$("#hiddenArea").val($("#editor .ql-editor").html());
+	})
+</script>
+{% if created %}
+<script>$(document).ready(function () {window.setTimeout(function () {location.href = "/post/{{url_key}}"}, 1000)})</script>
+{% endif %}
+{% endblock %}

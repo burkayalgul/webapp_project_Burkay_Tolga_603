@@ -1,0 +1,53 @@
+{% extends 'default/layout_out.html' %}
+{% block content %}
+<div>
+	<main>
+		<div class="container">
+			<center><a href="/"><img style="height: 150px" src="/static/img/inmyschool.png"></a></center>
+			<div class="row justify-content-center">
+				<div class="col-lg-7">
+					<div class="card shadow-lg border-0 rounded-lg mt-5">
+						<div class="card-header"><h3 class="text-center font-weight-bold my-4">Login</h3></div>
+						<div class="card-body">
+							{% for item in message %}
+							{% if error %}
+							<div class="alert alert-danger" role="alert">
+								{{ item }}
+							</div>
+							{% else %}
+							<div class="alert alert-success" role="alert">
+								{{ item }}
+							</div>
+							{% endif %}
+							{% endfor %}
+							<form id="login-form" method="post">
+								<div class="form-group">
+									<label class="small mb-1" for="username">Username</label>
+									<input required name="username" class="form-control py-4" id="username" aria-describedby="usernameHelp" placeholder="Username"/>
+								</div>
+								<div class="form-row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label class="small mb-1" for="password">Password</label>
+											<input required name="password" class="form-control py-4" id="password" type="password" placeholder="Enter a password"/>
+										</div>
+									</div>
+								</div>
+								<div class="form-group mt-4 mb-0">
+									<button class="btn btn-primary btn-block" id="login-form-button">Login</button>
+								</div>
+								<div class="form-group mt-4 mb-0">
+									<a href="/register" style="color: white" class="btn btn-success btn-block">Register</a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</div>
+{% if login %}
+<script>$(document).ready(function () {window.setTimeout(function () {location.href = "/"}, 1000)})</script>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,54 @@
+<html>
+<head>
+	<title>{{ title }} | inMySchool</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles.css') }}">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+	<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+	<script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=6186f739ff7cac00127ba810&product=sticky-share-buttons' async='async'></script>
+</head>
+<body>
+<center>
+	<table border="0" cellpadding="0" cellspacing="0" width="85%" bgcolor="#f6f6ef">
+		<tbody>
+		<tr>
+			<td bgcolor="#ff6600">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding:2px">
+					<tbody>
+					<tr>
+						<td style="line-height:12pt; height:10px;">
+						<span class="pagetop">
+							<b class="hnname">
+								<a href="/">inMySchool</a>
+							</b>
+							<a href="/create">submit</a>
+						</span>
+						</td>
+						<td style="text-align:right;padding-right:4px;">
+						<span class="pagetop">
+							<a href="/user/{{username}}">{{ username }}</a> |
+							<a id="me" href="/profile">edit my profile</a> |
+							<a id="logout" href="/logout">logout</a>
+						</span>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		<tr id="pagespace" title="New Links" style="height:10px"></tr>
+		{% block content %}{% endblock %}
+		</tbody>
+	</table>
+</center>
+</body>
+<script>
+	function vote(e, t)
+	{
+		e.preventDefault()
+		$.post($(t).attr('href'));
+		$('#total_likes' + $(t).attr('data-id')).html('('+ (parseInt($(t).attr('data-like')) + 1) +' likes)')
+		$(t).addClass('nosee');
+	}
+</script>
+</html>
